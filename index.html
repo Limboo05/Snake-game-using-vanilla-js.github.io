@@ -8,6 +8,40 @@
       <meta name="author" content="Limbo">
       <title> Limbo Snake Gme Vanila Js </title>
       <!-- Style CSS -->
+	<style>
+      .dpad {
+        position: fixed;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: grid;
+        grid-template-columns: 60px 60px 60px;
+        grid-template-rows: 60px 60px 60px;
+        gap: 10px;
+        z-index: 999;
+      }
+
+      .dpad button {
+        background: #222;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      .dpad button:active {
+        background: #444;
+      }
+
+      .dpad .empty {
+        background: transparent;
+        pointer-events: none;
+      }
+    </style>
       <link rel="stylesheet" href="./css/style.css">
       <!-- Demo CSS (No need to include it into your project) -->
       <link rel="stylesheet" href="./css/demo.css">
@@ -37,40 +71,32 @@
 </div>
         
       </main>
+	       <!-- D-Pad Controls -->
+    <div class="dpad">
+      <div class="empty"></div>
+      <button id="up">↑</button>
+      <div class="empty"></div>
+      <button id="left">←</button>
+      <div class="empty"></div>
+      <button id="right">→</button>
+      <div class="empty"></div>
+      <button id="down">↓</button>
+      <div class="empty"></div>
+    </div>
 
-      <script src="./js/script.js"></script>
-	<script>
-  let touchStartX = 0;
-  let touchStartY = 0;
-
-  document.addEventListener("touchstart", function (e) {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-  });
-
-  document.addEventListener("touchend", function (e) {
-    let touchEndX = e.changedTouches[0].screenX;
-    let touchEndY = e.changedTouches[0].screenY;
-
-    let dx = touchEndX - touchStartX;
-    let dy = touchEndY - touchStartY;
-
-    if (Math.abs(dx) > Math.abs(dy)) {
-      if (dx > 0) {
-        document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }));
-      } else {
-        document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }));
+    <!-- Scripts -->
+    <script src="./js/script.js"></script>
+    <script>
+      function simulateKey(key) {
+        document.dispatchEvent(new KeyboardEvent("keydown", { key }));
       }
-    } else {
-      if (dy > 0) {
-        document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
-      } else {
-        document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp" }));
-      }
-    }
-  });
-</script>
 
-   
-   </body>
+      document.getElementById("up").addEventListener("click", () => simulateKey("ArrowUp"));
+      document.getElementById("down").addEventListener("click", () => simulateKey("ArrowDown"));
+      document.getElementById("left").addEventListener("click", () => simulateKey("ArrowLeft"));
+      document.getElementById("right").addEventListener("click", () => simulateKey("ArrowRight"));
+    </script>
+  </body>
 </html>
+
+      
