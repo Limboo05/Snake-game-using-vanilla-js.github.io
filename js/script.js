@@ -1,6 +1,6 @@
 /** 
 This is a snake game I made with Vanilla Javascript.
-Follow me on twitter @fariatondo
+Follow me on twitter @khalifahsadiq
 **/
 
 let dom_replay = document.querySelector("#replay");
