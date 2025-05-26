@@ -214,20 +214,13 @@ class Snake {
     }
   }
   controlls() {
-  let dir = cellSize; // ✅ Use the global variable, always defined
-  if (KEY.ArrowUp) {
-    this.dir = new helpers.Vec(0, -dir);
-  }
-  if (KEY.ArrowDown) {
-    this.dir = new helpers.Vec(0, dir);
-  }
-  if (KEY.ArrowLeft) {
-    this.dir = new helpers.Vec(-dir, 0);
-  }
-  if (KEY.ArrowRight) {
-    this.dir = new helpers.Vec(dir, 0);
-  }
+  let dir = cellSize; // ✅ Use global, always defined
+  if (KEY.ArrowUp) this.dir = new helpers.Vec(0, -dir);
+  if (KEY.ArrowDown) this.dir = new helpers.Vec(0, dir);
+  if (KEY.ArrowLeft) this.dir = new helpers.Vec(-dir, 0);
+  if (KEY.ArrowRight) this.dir = new helpers.Vec(dir, 0);
 }
+
 
   selfCollision() {
     for (let i = 0; i < this.history.length; i++) {
