@@ -8,6 +8,7 @@ let dom_score = document.querySelector("#score");
 let dom_canvas = document.createElement("canvas");
 document.querySelector("#canvas").appendChild(dom_canvas);
 let CTX = dom_canvas.getContext("2d");
+let hasStarted = false;
 
 const W = (dom_canvas.width = 400);
 const H = (dom_canvas.height = 400);
@@ -154,6 +155,9 @@ let KEY = {
         if (e.key === "ArrowLeft" && this.ArrowRight) return;
         if (e.key === "ArrowRight" && this.ArrowLeft) return;
         this[e.key] = true;
+        
+        hasStarted = true; // ✅ user gave input
+
         Object.keys(this)
           .filter((f) => f !== e.key && f !== "listen" && f !== "resetState")
           .forEach((k) => {
@@ -168,7 +172,7 @@ let KEY = {
 class Snake {
   constructor(i, type) {
     this.pos = new helpers.Vec(W / 2, H / 2);
-    this.dir = new helpers.Vec(0, 0);
+    this.dir = new helpers.Vec(this.size, 0);
     this.type = type;
     this.index = i;
     this.delay = 5;
@@ -235,6 +239,7 @@ class Snake {
     this.walls();
     this.draw();
     this.controlls();
+    if (!hasStarted) return; // 🛑 don't move until user presses key
     if (!this.delay--) {
       if (helpers.isCollision(this.pos, food.pos)) {
         incrementScore();
