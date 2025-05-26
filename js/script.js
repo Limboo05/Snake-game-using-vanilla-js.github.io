@@ -172,11 +172,12 @@ let KEY = {
 class Snake {
   constructor(i, type) {
     this.pos = new helpers.Vec(W / 2, H / 2);
-    this.dir = new helpers.Vec(this.size, 0);
+    this.dir = new helpers.Vec(cellSize, 0); // ✅ instead of (0, 0)
+
     this.type = type;
     this.index = i;
     this.delay = 5;
-    this.size = W / cells;
+    this.size = cellSize;
     this.color = "white";
     this.history = [];
     this.total = 1;
@@ -213,20 +214,21 @@ class Snake {
     }
   }
   controlls() {
-    let dir = this.size;
-    if (KEY.ArrowUp) {
-      this.dir = new helpers.Vec(0, -dir);
-    }
-    if (KEY.ArrowDown) {
-      this.dir = new helpers.Vec(0, dir);
-    }
-    if (KEY.ArrowLeft) {
-      this.dir = new helpers.Vec(-dir, 0);
-    }
-    if (KEY.ArrowRight) {
-      this.dir = new helpers.Vec(dir, 0);
-    }
+  let dir = cellSize; // ✅ Use the global variable, always defined
+  if (KEY.ArrowUp) {
+    this.dir = new helpers.Vec(0, -dir);
   }
+  if (KEY.ArrowDown) {
+    this.dir = new helpers.Vec(0, dir);
+  }
+  if (KEY.ArrowLeft) {
+    this.dir = new helpers.Vec(-dir, 0);
+  }
+  if (KEY.ArrowRight) {
+    this.dir = new helpers.Vec(dir, 0);
+  }
+}
+
   selfCollision() {
     for (let i = 0; i < this.history.length; i++) {
       let p = this.history[i];
@@ -345,12 +347,14 @@ function initialize() {
   CTX.imageSmoothingEnabled = false;
   KEY.listen();
   cellsCount = cells * cells;
-  cellSize = W / cells;
-  snake = new Snake();
+  cellSize = W / cells;         // ✅ Make sure cellSize is set first
+  snake = new Snake();          // ✅ Now Snake will receive valid cellSize
   food = new Food();
   dom_replay.addEventListener("click", reset, false);
   loop();
 }
+
+
 
 function loop() {
   clear();
